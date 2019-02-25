@@ -1,6 +1,6 @@
 # Sprint Poker
 
-Tiny Vue.js app that doesn't do anything, but is dockerized. Use docker-compose for dev, setup compile and reload on change. The "prod" Dockerfile is a cleaner multi-stage build.
+Tiny Vue.js app that doesn't do anything, but is dockerized. Use docker-compose for dev, it's setup to compile and reload on change. The "prod" Dockerfile is a cleaner multi-stage build.
 
 ### Compiles and hot-reloads for development
 ```
