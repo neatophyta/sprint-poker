@@ -4,49 +4,9 @@
 		<div class="section">
 			<div class="section-title">Point Values</div>
 			<div class="section-content numbers">
-				<div class="option">
-					<input type="checkbox" id="check-0" name="0" value="0" checked>
-					<label for="check-0">1</label>
-				</div>
-				<div class="option">
-					<input type="checkbox" id="check-half" name="half" value="0.5" checked>
-					<label for="check-half">0.5</label>
-				</div>
-				<div class="option">
-					<input type="checkbox" id="check-1" name="1" value="1" checked>
-					<label for="check-1">1</label>
-				</div>
-				<div class="option">
-					<input type="checkbox" id="check-2" name="2" value="2" checked>
-					<label for="check-2">2</label>
-				</div>
-				<div class="option">
-					<input type="checkbox" id="check-3" name="3" value="3" checked>
-					<label for="check-3">3</label>
-				</div>
-				<div class="option">
-					<input type="checkbox" id="check-5" name="5" value="5" checked>
-					<label for="check-5">5</label>
-				</div>
-				<div class="option">
-					<input type="checkbox" id="check-8" name="8" value="8" checked>
-					<label for="check-8">8</label>
-				</div>
-				<div class="option">
-					<input type="checkbox" id="check-13" name="13" value="13" checked>
-					<label for="check-13">13</label>
-				</div>
-				<div class="option">
-					<input type="checkbox" id="check-20" name="20" value="20" checked>
-					<label for="check-20">20</label>
-				</div>
-				<div class="option">
-					<input type="checkbox" id="check-40" name="40" value="40" checked>
-					<label for="check-40">40</label>
-				</div>
-				<div class="option">
-					<input type="checkbox" id="check-100" name="100" value="100" checked>
-					<label for="check-100">100</label>
+				<div class="option" v-for="(point, index) in allPoints" :key="point">
+					<input type="checkbox" v-bind:id="'check-'+index" v-bind:value="point" v-model="checkedPoints" @change="handlePointChange">
+					<label v-bind:for="'check-'+index">{{point}}</label>
 				</div>
 			</div>
 		</div>
@@ -54,39 +14,11 @@
 			<div class="section-title">Card backs</div>
 			<div class="section-content">
 				<div class="card-list">
-					<div>
-						<div class="card waves" v-on:click="setCardBack('waves')"></div>
+					<div v-for="card in cardTypes" :key="card.key">
+						<div v-bind:class="[card.key, 'card']" v-on:click="setCardBack(card.key)"></div>
 						<div class="card-desc">
-							Waves
-							<i v-if="cardBack === 'waves'" class="far fa-check-circle"></i>
-						</div>
-					</div>
-					<div>
-						<div class="card circuit-board" v-on:click="setCardBack('circuit-board')"></div>
-						<div class="card-desc">
-							Circuit
-							<i v-if="cardBack === 'circuit-board'" class="far fa-check-circle"></i>
-						</div>
-					</div>
-					<div>
-						<div class="card bees" v-on:click="setCardBack('bees')"></div>
-						<div class="card-desc">
-							Bees?
-							<i v-if="cardBack === 'bees'" class="far fa-check-circle"></i>
-						</div>
-					</div>
-					<div>
-						<div class="card fancy" v-on:click="setCardBack('fancy')"></div>
-						<div class="card-desc">
-							Fancy
-							<i v-if="cardBack === 'fancy'" class="far fa-check-circle"></i>
-						</div>
-					</div>
-					<div>
-						<div class="card snacks" v-on:click="setCardBack('snacks')"></div>
-						<div class="card-desc">
-							Snacks!
-							<i v-if="cardBack === 'snacks'" class="far fa-check-circle"></i>
+							{{ card.label }}
+							<i v-if="cardBack === card.key" class="far fa-check-circle"></i>
 						</div>
 					</div>
 				</div>
@@ -102,17 +34,48 @@ export default {
 	data: function () {
 	    return {
 	        flipped: false,
-	        cardBack: null
+	        cardBack: null,
+	        checkedPoints: [],
+	        allPoints: [0, 0.5, 1, 2, 3, 5, 8, 13, 20, 40, 100],
+	        cardTypes: [
+	        	{
+	        		key: 'waves',
+	        		label: 'Waves'
+	        	},
+	        	{
+	        		key: 'circuit',
+	        		label: 'Circuit'
+	        	},
+	        	{
+	        		key: 'bees',
+	        		label: 'Bees?'
+	        	},
+	        	{
+	        		key: 'fancy',
+	        		label: 'Fancy'
+	        	},
+	        	{
+	        		key: 'snacks',
+	        		label: 'Snacks!'
+	        	}
+	        ]
+	        	
 	    }
 	},
 	methods: {
 		setCardBack: function (card) {
 		  	localStorage.setItem('cardBack', card);
 		  	this.cardBack = card;
+		},
+		handlePointChange: function () {
+		  	localStorage.setItem('checkedPoints', JSON.stringify(this.checkedPoints));
 		}
 	},
     mounted() {
-      if (localStorage.getItem('cardBack')) this.cardBack = localStorage.getItem('cardBack');
+    	//get selected card
+      	if (localStorage.getItem('cardBack')) this.cardBack = localStorage.getItem('cardBack');
+      	//get selected point values
+      	if (localStorage.getItem('checkedPoints')) this.checkedPoints = JSON.parse(localStorage.getItem('checkedPoints'));
     }
 }
 </script>
