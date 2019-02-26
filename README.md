@@ -1,29 +1,17 @@
-# sprint-poker
+# Sprint Poker
 
-## Project setup
-```
-npm install
-```
+Tiny Vue.js app that doesn't do anything, but is dockerized. Use docker-compose for dev, it's setup to compile and reload on change. The "prod" Dockerfile is a cleaner multi-stage build.
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+docker-compose up -d
 ```
+Setup for `http://localhost:8080/`
+
 
 ### Compiles and minifies for production
 ```
-npm run build
-```
+docker build . -t sprint-poker
 
-### Run your tests
+docker run -d -p 8080:80 sprint-poker
 ```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
