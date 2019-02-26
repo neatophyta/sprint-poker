@@ -1,2 +1,2 @@
 #!/bin/bash
-npm install && npm run serve
+npm install && npm run build && npm run serve

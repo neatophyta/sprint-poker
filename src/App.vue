@@ -2,22 +2,38 @@
   <div id="app">
     <div class="header">
       Planning Poker
+      <div class="menu-trigger" v-on:click="toggleMenu">
+        <i class="fas fa-bars" v-if="!inSettings"></i>
+        <i class="fas fa-times" v-if="inSettings"></i>
+      </div>
     </div>
     <div class="content">
-      <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-      <CardList/>
+      <CardList v-if="!inSettings"/>
+      <SettingsMenu v-if="inSettings"/>
     </div>
   </div>
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
+
 import CardList from './components/CardList.vue'
+import SettingsMenu from './components/SettingsMenu.vue'
 
 export default {
   name: 'app',
   components: {
-    CardList
+    CardList,
+    SettingsMenu
+  },
+  data: function () {
+      return {
+          inSettings: false
+      }
+  },
+  methods: {
+    toggleMenu: function () {
+        this.inSettings = !this.inSettings
+    }
   }
 }
 </script>
@@ -25,10 +41,10 @@ export default {
 <style>
 
   html, body {
-     height: 100%;
-     width: 100%;
-     margin: 0;
-     padding: 0;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
   }
 
   #app {
@@ -45,7 +61,15 @@ export default {
     font-size: 2.5em;
     height: 125px;
     padding: 30px;
-      position: relative;
+    position: relative;
+  }
+
+  .menu-trigger {
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1em;
+    position: absolute;
+    right: 50px;
   }
 
   .link-button {
